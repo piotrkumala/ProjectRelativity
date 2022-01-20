@@ -27,7 +27,7 @@ public static class ItemsList
         var reader = await command.ExecuteReaderAsync();
         while (reader.Read())
         {
-            list.Add(new Item(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2)));
+            list.Add(new Item(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2)));
         }
 
         return new OkObjectResult(list);
