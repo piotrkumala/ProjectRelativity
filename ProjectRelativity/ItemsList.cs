@@ -20,9 +20,7 @@ public static class ItemsList
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
-        var connectionString = Environment.GetEnvironmentVariable("sqldb_connection");
-        log.LogInformation(connectionString);
-        await using var connection = new SqlConnection(connectionString);
+        await using var connection = new SqlConnection(Environment.GetEnvironmentVariable("sqldb_connection"));
         await connection.OpenAsync();
         var list = new List<Item>();
         await using var command = new SqlCommand("SELECT * FROM items", connection);
