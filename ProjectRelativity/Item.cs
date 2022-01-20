@@ -1,3 +1,3 @@
 namespace ProjectRelativity;
 
-public record Item(int id, string name, double price);
+public record Item(int Id, string Name, double Price);
