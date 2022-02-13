@@ -36,6 +36,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           dotnet tool restore
+          ls
           dotnet ef database update
         env:
           ASPNETCORE_ENVIRONMENT: Development
