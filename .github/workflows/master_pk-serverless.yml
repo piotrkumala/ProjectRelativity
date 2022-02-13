@@ -39,6 +39,7 @@ jobs:
           dotnet ef database update --project ./ProjectRelativity/ProjectRelativity.csproj 
         env:
           ASPNETCORE_ENVIRONMENT: Development
+          sqldb_connection: $${{secrets.CONNECTION_STRING}}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
