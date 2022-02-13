@@ -1,32 +1,47 @@
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ProjectRelativity.ClientObjects;
+using ProjectRelativity.DB;
+using OrderItem = ProjectRelativity.DB.Entities.OrderItem;
 
 namespace ProjectRelativity;
 
-public static class PlaceOrder
+public class PlaceOrder
 {
-   
+    private readonly MyDbContext _dbContext;
+
+    public PlaceOrder(MyDbContext context)
+    {
+        _dbContext = context;
+    }
     [FunctionName("PlaceOrder")]
-    public static async Task<IActionResult> RunAsync(
+    public async Task<IActionResult> RunAsync(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
 
-        string name = req.Query["name"];
+        var order = JsonConvert.DeserializeObject<Order>(await new StreamReader(req.Body).ReadToEndAsync());
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        dynamic data = JsonConvert.DeserializeObject(requestBody);
-        name = name ?? data?.name;
-
-        return name != null
-            ? (ActionResult) new OkObjectResult($"Hello, {name}")
-            : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+        var entity = new DB.Entities.Order {UserId = order.UserId};
+        var entityItems = order.OrderItems.Select(x => new OrderItem
+        {
+            Amount = x.Amount, Item = _dbContext.Items.First(item => item.Id == x.Item.Id), ItemId = x.Item.Id, Order = entity, OrderId = entity.Id
+        }).ToList();
+        entity.OrderItems = entityItems;
         
+        await _dbContext.OrderItems.AddRangeAsync(entityItems);
+        await _dbContext.Orders.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
+
+        return new OkObjectResult(await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id));
+
     }
 }
