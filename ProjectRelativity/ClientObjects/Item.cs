@@ -1,3 +1,3 @@
 namespace ProjectRelativity.ClientObjects;
 
-public record Item(int Id, string Name, int Price);
+public record Item(int Id, string Name, double Price);

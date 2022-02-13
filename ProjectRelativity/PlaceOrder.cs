@@ -39,9 +39,8 @@ public class PlaceOrder
         await _dbContext.Orders.AddAsync(entity);
         await _dbContext.SaveChangesAsync();
         
-        log.LogInformation($"{entity.Id}");
-        var inserted = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        log.LogInformation($"{JsonConvert.SerializeObject(inserted)}");
-        return new OkResult();
+        log.LogInformation($"Added order with Id={entity.Id}");
+
+        return new OkObjectResult(await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id));
     }
 }
