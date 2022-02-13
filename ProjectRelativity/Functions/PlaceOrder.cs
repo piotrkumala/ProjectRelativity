@@ -12,7 +12,7 @@ using ProjectRelativity.ClientObjects;
 using ProjectRelativity.DB;
 using OrderItem = ProjectRelativity.DB.Entities.OrderItem;
 
-namespace ProjectRelativity;
+namespace ProjectRelativity.Functions;
 
 public class PlaceOrder
 {
