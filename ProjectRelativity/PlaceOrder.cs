@@ -29,7 +29,7 @@ public class PlaceOrder
         log.LogInformation("C# HTTP trigger function processed a request.");
 
         var order = JsonConvert.DeserializeObject<Order>(await new StreamReader(req.Body).ReadToEndAsync());
-
+        
         var entity = new DB.Entities.Order {UserId = order.UserId};
         var entityItems = order.OrderItems.Select(x => new OrderItem
         {
@@ -40,8 +40,11 @@ public class PlaceOrder
         await _dbContext.OrderItems.AddRangeAsync(entityItems);
         await _dbContext.Orders.AddAsync(entity);
         await _dbContext.SaveChangesAsync();
-
-        return new OkObjectResult(await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id));
+        
+        log.LogInformation($"{entity.Id}");
+        var inserted = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id);
+        log.LogInformation($"{inserted}");
+        return new OkObjectResult(inserted);
 
     }
 }
