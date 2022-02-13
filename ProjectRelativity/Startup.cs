@@ -6,6 +6,7 @@ using ProjectRelativity.DB;
 
 namespace ProjectRelativity;
 
+[assembly: FunctionsStartup(typeof(ProjectRelativity.Startup))]
 public class Startup: FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
