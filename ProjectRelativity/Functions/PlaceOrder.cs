@@ -28,12 +28,21 @@ public class PlaceOrder
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
 
-        var order = JsonConvert.DeserializeObject<Order>(await new StreamReader(req.Body).ReadToEndAsync());
+        var (userId, orderItems) = JsonConvert.DeserializeObject<Order>(await new StreamReader(req.Body).ReadToEndAsync());
+        if (orderItems.Count == 0)
+        {
+            return new UnprocessableEntityObjectResult("Cannot place order without items in it");
+        }
         
-        var entity = new DB.Entities.Order {UserId = order.UserId, OrderItems = order.OrderItems.Select(x => new OrderItem
+        var entity = new DB.Entities.Order {UserId = userId, OrderItems = orderItems.Select(x => new OrderItem
         {
             Amount = x.Amount, Item = _dbContext.Items.First(item => item.Id == x.Item.Id), ItemId = x.Item.Id
         }).ToList()};
+
+        if (entity.OrderItems.Any(x => x.Item == null))
+        {
+            return new UnprocessableEntityObjectResult("Cannot place order for item not present in the database");
+        }
         
         await _dbContext.OrderItems.AddRangeAsync(entity.OrderItems);
         await _dbContext.Orders.AddAsync(entity);
