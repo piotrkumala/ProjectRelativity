@@ -31,6 +31,14 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
+          
+      - name: Update database
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
+          dotnet ef database update --project ./ProjectRelativity/ProjectRelativity.csproj 
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1

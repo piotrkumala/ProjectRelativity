@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectRelativity", "ProjectRelativity\ProjectRelativity.csproj", "{C19253FF-6650-4846-92A0-CC31862916B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{2EF0195F-90DB-4FF5-A723-0E0105398E64}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\master_pk-serverless.yml = .github\workflows\master_pk-serverless.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
