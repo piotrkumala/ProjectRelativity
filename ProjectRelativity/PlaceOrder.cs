@@ -30,14 +30,12 @@ public class PlaceOrder
 
         var order = JsonConvert.DeserializeObject<Order>(await new StreamReader(req.Body).ReadToEndAsync());
         
-        var entity = new DB.Entities.Order {UserId = order.UserId};
-        var entityItems = order.OrderItems.Select(x => new OrderItem
+        var entity = new DB.Entities.Order {UserId = order.UserId, OrderItems = order.OrderItems.Select(x => new OrderItem
         {
-            Amount = x.Amount, Item = _dbContext.Items.First(item => item.Id == x.Item.Id), ItemId = x.Item.Id, Order = entity, OrderId = entity.Id
-        }).ToList();
-        entity.OrderItems = entityItems;
+            Amount = x.Amount, Item = _dbContext.Items.First(item => item.Id == x.Item.Id), ItemId = x.Item.Id
+        }).ToList()};
         
-        await _dbContext.OrderItems.AddRangeAsync(entityItems);
+        await _dbContext.OrderItems.AddRangeAsync(entity.OrderItems);
         await _dbContext.Orders.AddAsync(entity);
         await _dbContext.SaveChangesAsync();
         
