@@ -43,8 +43,7 @@ public class PlaceOrder
         
         log.LogInformation($"{entity.Id}");
         var inserted = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        log.LogInformation($"{inserted}");
-        return new OkObjectResult(inserted);
-
+        log.LogInformation($"{JsonConvert.SerializeObject(inserted)}");
+        return new OkResult();
     }
 }
