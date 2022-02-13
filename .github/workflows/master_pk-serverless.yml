@@ -14,6 +14,17 @@ env:
   DOTNET_VERSION: '6.0.x' # set this to the dotnet version to use
 
 jobs:
+  update-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update database
+        run: |
+          dotnet tool install --global dotnet-ef
+          dotnet tool restore
+          dotnet ef database update --project ./ProjectRelativity/ProjectRelativity.csproj 
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          sqldb_connection: $${{secrets.CONNECTION_STRING}} 
   build-and-deploy:
     runs-on: windows-latest
     steps:
@@ -31,15 +42,6 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
-          
-      - name: Update database
-        run: |
-          dotnet tool install --global dotnet-ef
-          dotnet tool restore
-          dotnet ef database update --project ./ProjectRelativity/ProjectRelativity.csproj 
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-          sqldb_connection: $${{secrets.CONNECTION_STRING}}
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
