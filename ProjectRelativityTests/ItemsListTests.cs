@@ -36,7 +36,7 @@ public class ItemsListTests: IDisposable
         context.SaveChanges();
     }
     
-    MyDbContext CreateContext() => new MyDbContext(_contextOptions);
+    MyDbContext CreateContext() => new (_contextOptions);
 
     public void Dispose() => _connection.Dispose();
     

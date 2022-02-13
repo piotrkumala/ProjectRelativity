@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{2EF0195F-90DB-4FF5-A723-0E0105398E64}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\master_pk-serverless.yml = .github\workflows\master_pk-serverless.yml
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectRelativityTests", "ProjectRelativityTests\ProjectRelativityTests.csproj", "{B681DC56-6815-47BB-8AEF-63200E08980B}"

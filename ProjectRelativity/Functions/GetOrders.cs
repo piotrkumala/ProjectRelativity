@@ -24,12 +24,17 @@ public class GetOrders
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
-        if (!await _dbContext.Orders.AnyAsync(x => x.UserId == req.Query["UserId"]))
+        if (!req.Query.ContainsKey("UserId"))
+        {
+            return new BadRequestObjectResult("No userId specified");
+        }
+        
+        if (!await _dbContext.Orders.AnyAsync(x => x.UserId == req.Query["UserId"].ToString()))
         {
             return new NotFoundResult();
         }
 
-        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"]).ToListAsync());
+        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString()).ToListAsync());
 
     }
 }
