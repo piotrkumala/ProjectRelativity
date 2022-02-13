@@ -9,10 +9,10 @@ using Newtonsoft.Json;
 
 namespace ProjectRelativity;
 
-public static class Order
+public static class PlaceOrder
 {
    
-    [FunctionName("Order")]
+    [FunctionName("PlaceOrder")]
     public static async Task<IActionResult> RunAsync(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log)
     {
