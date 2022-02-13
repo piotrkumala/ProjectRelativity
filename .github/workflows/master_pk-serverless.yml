@@ -40,6 +40,7 @@ jobs:
         env:
           ASPNETCORE_ENVIRONMENT: Development
           sqldb_connection: ${{secrets.CONNECTION_STRING}} 
+          
   build-and-deploy:
     runs-on: windows-latest
     steps:
@@ -57,6 +58,11 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
+          
+      -name: 'Run tests'
+        shell: pwsh
+        run: |
+          dotnet test
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
