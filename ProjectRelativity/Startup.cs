@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectRelativity.DB;
 
+[assembly: FunctionsStartup(typeof(ProjectRelativity.Startup))]
 namespace ProjectRelativity;
 
-[assembly: FunctionsStartup(typeof(ProjectRelativity.Startup))]
 public class Startup: FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
