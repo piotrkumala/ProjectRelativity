@@ -23,7 +23,7 @@ public class ItemsList
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
-        if (await _dbContext.Items.AnyAsync())
+        if (!await _dbContext.Items.AnyAsync())
         {
             return new NotFoundResult();
         }

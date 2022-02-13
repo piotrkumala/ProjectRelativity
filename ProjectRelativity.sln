@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{2EF0195F
 		.github\workflows\master_pk-serverless.yml = .github\workflows\master_pk-serverless.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectRelativityTests", "ProjectRelativityTests\ProjectRelativityTests.csproj", "{B681DC56-6815-47BB-8AEF-63200E08980B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{C19253FF-6650-4846-92A0-CC31862916B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C19253FF-6650-4846-92A0-CC31862916B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C19253FF-6650-4846-92A0-CC31862916B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B681DC56-6815-47BB-8AEF-63200E08980B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B681DC56-6815-47BB-8AEF-63200E08980B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B681DC56-6815-47BB-8AEF-63200E08980B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B681DC56-6815-47BB-8AEF-63200E08980B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
