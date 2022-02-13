@@ -58,7 +58,7 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
           
-      -name: 'Run tests'
+      - name: 'Run tests'
         shell: pwsh
         run: |
           dotnet test
