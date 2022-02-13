@@ -21,7 +21,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           dotnet tool restore
-          dotnet ef database update --project ./ProjectRelativity/ProjectRelativity.csproj 
+          dotnet ef database update --project ./ProjectRelativity.csproj 
         env:
           ASPNETCORE_ENVIRONMENT: Development
           sqldb_connection: $${{secrets.CONNECTION_STRING}} 
