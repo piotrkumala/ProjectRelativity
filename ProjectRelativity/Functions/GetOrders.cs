@@ -36,6 +36,6 @@ public class GetOrders
         }
 
         return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString())
-            .Include(x => x.OrderItems.Select(o => o.Item)).ToListAsync());
+            .Include(x => x.OrderItems).ThenInclude(x => x.Item).ToListAsync());
     }
 }
