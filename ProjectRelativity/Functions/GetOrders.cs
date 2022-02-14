@@ -18,23 +18,24 @@ public class GetOrders
     {
         _dbContext = context;
     }
-    
+
     [FunctionName("GetOrders")]
     public async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
         if (!req.Query.ContainsKey("UserId"))
         {
             return new BadRequestObjectResult("No userId specified");
         }
-        
+
         if (!await _dbContext.Orders.AnyAsync(x => x.UserId == req.Query["UserId"].ToString()))
         {
             return new NotFoundResult();
         }
 
-        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString()).Include(x=> x.OrderItems).ToListAsync());
-
+        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString())
+            .Include(x => x.OrderItems.Select(o => o.Item)).ToListAsync());
     }
 }
