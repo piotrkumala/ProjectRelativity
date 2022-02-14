@@ -34,7 +34,7 @@ public class GetOrders
             return new NotFoundResult();
         }
 
-        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString()).ToListAsync());
+        return new OkObjectResult(await _dbContext.Orders.Where(x => x.UserId == req.Query["UserId"].ToString()).Include(x=> x.OrderItems).ToListAsync());
 
     }
 }
